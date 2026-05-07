@@ -1,13 +1,9 @@
 {
   "version": 2,
-  "routes": [
-    {
-      "src": "/api/chat",
-      "dest": "/api/chat.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+  "functions": {
+    "api/chat.js": {
+      "memory": 128,
+      "maxDuration": 30
     }
-  ]
+  }
 }
