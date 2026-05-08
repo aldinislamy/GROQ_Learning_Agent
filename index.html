@@ -6,49 +6,60 @@
 <title>Learning Agent — Powered by Groq</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Cabinet+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0A0A0F;
-  --bg2: #111118;
-  --bg3: #1A1A24;
-  --border: #2A2A3A;
-  --border2: #3A3A50;
-  --accent: #7C5CFC;
-  --accent2: #A78BFA;
-  --accent3: #C4B5FD;
-  --gold: #F59E0B;
-  --green: #10B981;
-  --red: #EF4444;
-  --text: #F0F0FF;
-  --text2: #A0A0C0;
-  --text3: #606080;
-  --card: #13131E;
-  --card2: #1C1C2A;
-}
+:root{--bg:#0A0A0F;--bg2:#111118;--bg3:#1A1A24;--border:#2A2A3A;--border2:#3A3A50;--accent:#7C5CFC;--accent2:#A78BFA;--accent3:#C4B5FD;--gold:#F59E0B;--green:#10B981;--red:#EF4444;--text:#F0F0FF;--text2:#A0A0C0;--text3:#606080;--card:#13131E;--card2:#1C1C2A}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Cabinet Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 .bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(124,92,252,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(124,92,252,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
 .bg-glow{position:fixed;z-index:0;pointer-events:none;border-radius:50%;filter:blur(80px);opacity:0.12}
 .bg-glow-1{width:500px;height:500px;background:var(--accent);top:-100px;right:-100px}
 .bg-glow-2{width:400px;height:400px;background:var(--gold);bottom:-100px;left:-100px}
-.app{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 1.5rem 4rem}
-.header{padding:2rem 0 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:2rem;animation:slideDown 0.5s ease both}
-@keyframes slideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+
+/* AUTH PAGE */
+.auth-page{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.auth-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:2.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,0.5)}
+.auth-logo{display:flex;align-items:center;gap:12px;margin-bottom:2rem;justify-content:center}
+.auth-logo-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 24px rgba(124,92,252,0.4)}
+.auth-logo-name{font-family:'Syne',sans-serif;font-size:22px;font-weight:800}
+.auth-logo-name span{color:var(--accent2)}
+.auth-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;text-align:center;margin-bottom:0.5rem}
+.auth-sub{font-size:13px;color:var(--text3);text-align:center;margin-bottom:2rem;line-height:1.6}
+.auth-tabs{display:flex;background:var(--bg2);border-radius:12px;padding:4px;margin-bottom:1.5rem}
+.auth-tab{flex:1;padding:8px;border:none;background:none;cursor:pointer;font-family:'Cabinet Grotesk',sans-serif;font-size:13px;font-weight:500;color:var(--text3);border-radius:8px;transition:all 0.2s}
+.auth-tab.on{background:var(--accent);color:white;box-shadow:0 2px 8px rgba(124,92,252,0.3)}
+.f-group{margin-bottom:1rem}
+.f-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);display:block;margin-bottom:6px;font-family:'DM Mono',monospace}
+.f-input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:12px;font-family:'Cabinet Grotesk',sans-serif;font-size:14px;background:var(--bg2);color:var(--text);transition:border-color 0.2s}
+.f-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,92,252,0.1)}
+.f-input::placeholder{color:var(--text3)}
+.auth-btn{width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-family:'Cabinet Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:0.5rem;transition:opacity 0.2s;box-shadow:0 4px 16px rgba(124,92,252,0.3)}
+.auth-btn:hover{opacity:0.9}
+.auth-btn:disabled{opacity:0.5;cursor:default}
+.auth-error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--red);margin-bottom:1rem;display:none}
+.auth-error.show{display:block}
+.auth-success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--green);margin-bottom:1rem;display:none}
+.auth-success.show{display:block}
+
+/* MAIN APP */
+.main-app{display:none;position:relative;z-index:1}
+.main-app.show{display:block}
+.app{max-width:1000px;margin:0 auto;padding:0 1.5rem 4rem}
+.header{padding:1.5rem 0 1.25rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
 .logo{display:flex;align-items:center;gap:12px}
-.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(124,92,252,0.4)}
-.logo-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 16px rgba(124,92,252,0.4)}
+.logo-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:800}
 .logo-name span{color:var(--accent2)}
-.logo-sub{font-size:11px;color:var(--text3);margin-top:1px;font-family:'DM Mono',monospace}
-.header-right{display:flex;align-items:center;gap:10px}
-.badge{display:flex;align-items:center;gap:6px;background:rgba(124,92,252,0.1);border:1px solid rgba(124,92,252,0.3);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--accent3);font-family:'DM Mono',monospace}
-.badge-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.logo-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+.header-right{display:flex;align-items:center;gap:8px}
+.user-badge{display:flex;align-items:center;gap:6px;background:rgba(124,92,252,0.1);border:1px solid rgba(124,92,252,0.3);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--accent3);font-family:'DM Mono',monospace;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:none;color:var(--text3);font-size:12px;cursor:pointer;transition:all 0.2s}
+.logout-btn:hover{border-color:var(--red);color:var(--red)}
 .tabs{display:flex;gap:4px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:4px;width:fit-content;margin-bottom:1.5rem}
-.tab{font-family:'Cabinet Grotesk',sans-serif;font-size:13px;font-weight:500;padding:8px 20px;border-radius:8px;border:none;background:none;cursor:pointer;color:var(--text3);transition:all 0.2s}
+.tab{font-family:'Cabinet Grotesk',sans-serif;font-size:13px;font-weight:500;padding:7px 18px;border-radius:8px;border:none;background:none;cursor:pointer;color:var(--text3);transition:all 0.2s}
 .tab:hover:not(.on){color:var(--text2);background:rgba(255,255,255,0.03)}
-.tab.on{background:var(--accent);color:white;box-shadow:0 2px 12px rgba(124,92,252,0.4)}
+.tab.on{background:var(--accent);color:white;box-shadow:0 2px 10px rgba(124,92,252,0.4)}
 .view{display:none;animation:fadeIn 0.25s ease}
 .view.on{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
 .stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem;text-align:center;position:relative;overflow:hidden}
 .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
@@ -61,11 +72,10 @@ body{font-family:'Cabinet Grotesk',sans-serif;background:var(--bg);color:var(--t
 .ag-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
 .ag-card:hover::after{opacity:1}
 .ag-card.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 8px 24px rgba(124,92,252,0.2)}
-.ag-card.sel::after{opacity:1}
 .ag-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
 .ag-icon{font-size:1.75rem}
-.ag-expert{font-size:9px;font-weight:600;background:rgba(16,185,129,0.15);color:var(--green);padding:2px 7px;border-radius:100px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.06em}
-.ag-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px}
+.ag-expert{font-size:9px;font-weight:600;background:rgba(16,185,129,0.15);color:var(--green);padding:2px 7px;border-radius:100px;font-family:'DM Mono',monospace;text-transform:uppercase}
+.ag-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
 .ag-role{font-size:10px;color:var(--text3);margin-bottom:8px;line-height:1.4}
 .ag-meta{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace}
 .ag-dots{display:flex;gap:3px;margin-bottom:6px}
@@ -76,15 +86,13 @@ body{font-family:'Cabinet Grotesk',sans-serif;background:var(--bg);color:var(--t
 .ag-del:hover{color:var(--red);background:rgba(239,68,68,0.1)}
 .ag-add{background:transparent;border:1px dashed var(--border2);border-radius:16px;padding:1.25rem 1rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:140px;gap:8px;transition:all 0.2s;color:var(--text3)}
 .ag-add:hover{border-color:var(--accent);color:var(--accent2);background:rgba(124,92,252,0.05)}
-.ag-add-icon{font-size:24px}
-.ag-add-label{font-size:12px;font-weight:500}
 .ch-layout{display:flex;flex-direction:column;gap:10px}
-.ch-agent-bar{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:none;align-items:center;gap:12px}
-.ch-agent-bar.show{display:flex}
-.ch-agent-bar-icon{font-size:1.4rem}
-.ch-agent-bar-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
-.ch-agent-bar-role{font-size:11px;color:var(--text3)}
-.ch-agent-bar-style{margin-left:auto;font-size:10px;font-family:'DM Mono',monospace;background:rgba(124,92,252,0.1);color:var(--accent3);padding:3px 10px;border-radius:100px;border:1px solid rgba(124,92,252,0.2)}
+.ch-bar{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:none;align-items:center;gap:12px}
+.ch-bar.show{display:flex}
+.ch-bar-icon{font-size:1.4rem}
+.ch-bar-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+.ch-bar-role{font-size:11px;color:var(--text3)}
+.ch-bar-style{margin-left:auto;font-size:10px;font-family:'DM Mono',monospace;background:rgba(124,92,252,0.1);color:var(--accent3);padding:3px 10px;border-radius:100px;border:1px solid rgba(124,92,252,0.2)}
 .ch-pills{display:flex;gap:6px;flex-wrap:wrap;min-height:32px}
 .ch-pill{padding:6px 14px;border-radius:100px;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--card);color:var(--text3);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:5px}
 .ch-pill:hover{border-color:var(--border2);color:var(--text2)}
@@ -92,11 +100,10 @@ body{font-family:'Cabinet Grotesk',sans-serif;background:var(--bg);color:var(--t
 .ch-msgs{border:1px solid var(--border);border-radius:16px;padding:1.25rem;background:var(--card);display:flex;flex-direction:column;gap:12px;min-height:320px;max-height:400px;overflow-y:auto}
 .ch-msgs::-webkit-scrollbar{width:3px}
 .ch-msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-.ch-msg{display:flex;gap:10px;animation:msgIn 0.2s ease}
+.ch-msg{display:flex;gap:10px;animation:fadeIn 0.2s ease}
 .ch-msg.u{flex-direction:row-reverse}
-@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .ch-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:var(--card2);border:1px solid var(--border)}
-.ch-msg.u .ch-av{background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:11px;font-weight:700;color:white;border:none;font-family:'Syne',sans-serif}
+.ch-msg.u .ch-av{background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:11px;font-weight:700;color:white;border:none}
 .ch-bub{max-width:78%;padding:10px 16px;border-radius:16px;font-size:13px;line-height:1.7;white-space:pre-wrap}
 .ch-msg.a .ch-bub{background:var(--card2);border:1px solid var(--border);color:var(--text)}
 .ch-msg.u .ch-bub{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white}
@@ -111,7 +118,7 @@ body{font-family:'Cabinet Grotesk',sans-serif;background:var(--bg);color:var(--t
 .ch-inp-row textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,92,252,0.1)}
 .ch-inp-row textarea::placeholder{color:var(--text3)}
 .ch-send{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;box-shadow:0 4px 12px rgba(124,92,252,0.3)}
-.ch-send:hover:not(:disabled){transform:scale(1.05);box-shadow:0 6px 18px rgba(124,92,252,0.4)}
+.ch-send:hover:not(:disabled){transform:scale(1.05)}
 .ch-send:disabled{opacity:0.3;cursor:default;box-shadow:none}
 .dots span{display:inline-block;width:5px;height:5px;background:var(--accent2);border-radius:50%;animation:dotB 1.2s infinite ease-in-out;margin:0 2px}
 .dots span:nth-child(2){animation-delay:.2s}
@@ -128,17 +135,21 @@ body{font-family:'Cabinet Grotesk',sans-serif;background:var(--bg);color:var(--t
 .mem-key{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent3);margin-bottom:4px;font-weight:600;font-family:'DM Mono',monospace}
 .mem-val{font-size:12px;color:var(--text2);line-height:1.5}
 .mem-empty{font-size:13px;color:var(--text3);font-style:italic}
+.loading-screen{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.loading-icon{font-size:3rem;animation:spin 1s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;color:var(--text3);font-family:'DM Mono',monospace}
 .modal-bg{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.2s;overflow-y:auto}
 .modal-bg.open{opacity:1;pointer-events:all}
 .modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:420px;transform:translateY(20px) scale(0.97);transition:transform 0.25s ease}
 .modal-bg.open .modal{transform:translateY(0) scale(1)}
 .modal-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:1.5rem}
-.f-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);display:block;margin-bottom:6px;font-family:'DM Mono',monospace}
-.f-input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-family:'Cabinet Grotesk',sans-serif;font-size:14px;background:var(--bg2);color:var(--text);margin-bottom:1.25rem}
-.f-input:focus{outline:none;border-color:var(--accent)}
-.f-textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-family:'Cabinet Grotesk',sans-serif;font-size:13px;background:var(--bg2);color:var(--text);margin-bottom:0.5rem;resize:none;height:70px;line-height:1.5}
-.f-textarea:focus{outline:none;border-color:var(--accent)}
-.f-hint{font-size:11px;color:var(--text3);margin-bottom:1.25rem;line-height:1.5}
+.m-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);display:block;margin-bottom:6px;font-family:'DM Mono',monospace}
+.m-input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-family:'Cabinet Grotesk',sans-serif;font-size:14px;background:var(--bg2);color:var(--text);margin-bottom:1.25rem}
+.m-input:focus{outline:none;border-color:var(--accent)}
+.m-textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-family:'Cabinet Grotesk',sans-serif;font-size:13px;background:var(--bg2);color:var(--text);margin-bottom:0.5rem;resize:none;height:70px;line-height:1.5}
+.m-textarea:focus{outline:none;border-color:var(--accent)}
+.m-hint{font-size:11px;color:var(--text3);margin-bottom:1.25rem}
 .style-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1.25rem}
 .sopt{border:1px solid var(--border);border-radius:10px;padding:8px 10px;cursor:pointer;transition:all 0.12s;background:var(--bg2)}
 .sopt:hover{border-color:var(--border2)}
@@ -152,7 +163,7 @@ body{font-family:'Cabinet Grotesk',sans-serif;background:var(--bg);color:var(--t
 .btn-row{display:flex;gap:8px;justify-content:flex-end}
 button.btn-c{padding:8px 16px;border-radius:100px;border:1px solid var(--border);background:none;font-size:13px;cursor:pointer;color:var(--text3)}
 button.btn-c:hover{background:var(--card2);color:var(--text)}
-button.btn-p{padding:8px 20px;border-radius:100px;border:none;background:var(--accent);color:white;font-size:13px;cursor:pointer;font-weight:600;box-shadow:0 4px 12px rgba(124,92,252,0.3)}
+button.btn-p{padding:8px 20px;border-radius:100px;border:none;background:var(--accent);color:white;font-size:13px;cursor:pointer;font-weight:600}
 button.btn-p:hover{opacity:0.85}
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--card2);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:100px;font-size:12px;opacity:0;transition:all 0.25s;pointer-events:none;white-space:nowrap;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -163,72 +174,101 @@ button.btn-p:hover{opacity:0.85}
 <div class="bg-glow bg-glow-1"></div>
 <div class="bg-glow bg-glow-2"></div>
 
-<div class="app">
+<!-- LOADING -->
+<div class="loading-screen" id="loading">
+  <div class="loading-icon">⚡</div>
+  <div class="loading-text">memuat...</div>
+</div>
 
-<div class="header">
-  <div class="logo">
-    <div class="logo-icon">🧠</div>
-    <div>
-      <div class="logo-name">Learning <span>Agent</span></div>
-      <div class="logo-sub">powered by groq ai</div>
+<!-- AUTH PAGE -->
+<div class="auth-page" id="auth-page" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="auth-logo-icon">🧠</div>
+      <div class="auth-logo-name">Learning <span>Agent</span></div>
     </div>
-  </div>
-  <div class="header-right">
-    <div class="badge"><div class="badge-dot"></div><span id="model-label">llama 3.3 70b</span></div>
-    <div class="badge" style="color:var(--green);border-color:rgba(16,185,129,0.3)">✓ ready</div>
-  </div>
-</div>
-
-<div class="tabs">
-  <button class="tab on" onclick="goTab('agents',this)">Guru Saya</button>
-  <button class="tab" onclick="goTab('chat',this)">Belajar</button>
-  <button class="tab" onclick="goTab('mem',this)">Progress</button>
-</div>
-
-<div class="view on" id="view-agents">
-  <div class="stats">
-    <div class="stat-card"><div class="stat-n" id="s-ag">0</div><div class="stat-l">Guru Aktif</div></div>
-    <div class="stat-card"><div class="stat-n" id="s-ms">0</div><div class="stat-l">Sesi Belajar</div></div>
-    <div class="stat-card"><div class="stat-n" id="s-mem">0</div><div class="stat-l">Memori Total</div></div>
-  </div>
-  <div class="motiv"><span style="font-size:18px;flex-shrink:0">✦</span><span id="motiv-tx">Guru terbaik tidak hanya memberi jawaban, tapi membentuk cara berpikirmu.</span></div>
-  <div class="ag-grid" id="ag-grid"></div>
-</div>
-
-<div class="view" id="view-chat">
-  <div class="ch-layout">
-    <div class="ch-pills" id="ch-pills"></div>
-    <div class="ch-agent-bar" id="ch-bar">
-      <span class="ch-agent-bar-icon" id="cb-icon"></span>
-      <div><div class="ch-agent-bar-name" id="cb-name"></div><div class="ch-agent-bar-role" id="cb-role"></div></div>
-      <span class="ch-agent-bar-style" id="cb-style"></span>
+    <div class="auth-title">Selamat Datang</div>
+    <div class="auth-sub">Platform belajar personal dengan guru AI expert</div>
+    <div class="auth-tabs">
+      <button class="auth-tab on" onclick="switchAuth('login',this)">Masuk</button>
+      <button class="auth-tab" onclick="switchAuth('signup',this)">Daftar</button>
     </div>
-    <div class="ch-msgs" id="ch-msgs"></div>
-    <div class="ch-quick" id="ch-quick" style="display:none"></div>
-    <div class="ch-inp-row">
-      <textarea id="ch-inp" placeholder="Tanya gurumu apa saja..." rows="1" onkeydown="onKey(event)" oninput="autoH(this)"></textarea>
-      <button class="ch-send" id="ch-send" onclick="doSend()" disabled>➤</button>
+    <div class="auth-error" id="auth-error"></div>
+    <div class="auth-success" id="auth-success"></div>
+    <div class="f-group">
+      <label class="f-label">Email</label>
+      <input class="f-input" id="auth-email" type="email" placeholder="email@kamu.com" onkeydown="if(event.key==='Enter')doAuth()"/>
     </div>
+    <div class="f-group">
+      <label class="f-label">Password</label>
+      <input class="f-input" id="auth-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doAuth()"/>
+    </div>
+    <button class="auth-btn" id="auth-btn" onclick="doAuth()">Masuk</button>
   </div>
 </div>
 
-<div class="view" id="view-mem">
-  <div id="mem-ct"></div>
+<!-- MAIN APP -->
+<div class="main-app" id="main-app">
+  <div class="app">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">🧠</div>
+        <div>
+          <div class="logo-name">Learning <span>Agent</span></div>
+          <div class="logo-sub">powered by groq ai</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="user-badge">👤 <span id="user-email">user</span></div>
+        <button class="logout-btn" onclick="doLogout()">Keluar</button>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab on" onclick="goTab('agents',this)">Guru Saya</button>
+      <button class="tab" onclick="goTab('chat',this)">Belajar</button>
+      <button class="tab" onclick="goTab('mem',this)">Progress</button>
+    </div>
+    <div class="view on" id="view-agents">
+      <div class="stats">
+        <div class="stat-card"><div class="stat-n" id="s-ag">0</div><div class="stat-l">Guru Aktif</div></div>
+        <div class="stat-card"><div class="stat-n" id="s-ms">0</div><div class="stat-l">Sesi Belajar</div></div>
+        <div class="stat-card"><div class="stat-n" id="s-mem">0</div><div class="stat-l">Memori Total</div></div>
+      </div>
+      <div class="motiv"><span style="font-size:18px;flex-shrink:0">✦</span><span id="motiv-tx">Guru terbaik tidak hanya memberi jawaban, tapi membentuk cara berpikirmu.</span></div>
+      <div class="ag-grid" id="ag-grid"></div>
+    </div>
+    <div class="view" id="view-chat">
+      <div class="ch-layout">
+        <div class="ch-pills" id="ch-pills"></div>
+        <div class="ch-bar" id="ch-bar">
+          <span class="ch-bar-icon" id="cb-icon"></span>
+          <div><div class="ch-bar-name" id="cb-name"></div><div class="ch-bar-role" id="cb-role"></div></div>
+          <span class="ch-bar-style" id="cb-style"></span>
+        </div>
+        <div class="ch-msgs" id="ch-msgs"></div>
+        <div class="ch-quick" id="ch-quick" style="display:none"></div>
+        <div class="ch-inp-row">
+          <textarea id="ch-inp" placeholder="Tanya gurumu apa saja..." rows="1" onkeydown="onKey(event)" oninput="autoH(this)"></textarea>
+          <button class="ch-send" id="ch-send" onclick="doSend()" disabled>➤</button>
+        </div>
+      </div>
+    </div>
+    <div class="view" id="view-mem"><div id="mem-ct"></div></div>
+  </div>
 </div>
 
-</div>
-
+<!-- MODAL -->
 <div id="modal-bg" class="modal-bg">
   <div class="modal">
     <div class="modal-title">Tambah guru baru ✦</div>
-    <label class="f-label">Topik / bidang keahlian</label>
-    <input class="f-input" id="f-name" placeholder="contoh: Python, Matematika, LangGraph..."/>
-    <label class="f-label">Deskripsi guru (opsional)</label>
-    <textarea class="f-textarea" id="f-desc" placeholder="contoh: Spesialis data engineering, 10 tahun pengalaman..."></textarea>
-    <div class="f-hint">Kosongkan untuk deskripsi otomatis</div>
-    <label class="f-label">Gaya mengajar</label>
+    <label class="m-label">Topik / bidang keahlian</label>
+    <input class="m-input" id="f-name" placeholder="contoh: Python, Matematika, LangGraph..."/>
+    <label class="m-label">Deskripsi guru (opsional)</label>
+    <textarea class="m-textarea" id="f-desc" placeholder="contoh: Spesialis data engineering..."></textarea>
+    <div class="m-hint" style="color:var(--text3);font-size:11px;margin-bottom:1.25rem">Kosongkan untuk deskripsi otomatis</div>
+    <label class="m-label">Gaya mengajar</label>
     <div class="style-grid" id="style-grid"></div>
-    <label class="f-label">Pilih ikon</label>
+    <label class="m-label">Pilih ikon</label>
     <div class="emoji-grid" id="emoji-grid"></div>
     <div class="btn-row">
       <button class="btn-c" onclick="closeModal()">Batal</button>
@@ -241,34 +281,134 @@ button.btn-p:hover{opacity:0.85}
 
 <script>
 const EMOJIS=['📚','🧮','🔬','💻','🎨','🌍','🎵','✍️','🧬','⚡','🏛️','🗣️','📐','🧪','🎭','🌱','💡','🔭','🎯','🧠','📖','🌐','🎓','⚗️','🏆','🚀','🎸','🍳','💰','📷','✈️','🔧'];
-const MOTIVS=['Guru terbaik tidak hanya memberi jawaban, tapi membentuk cara berpikirmu.','Belajar dari guru yang tepat adalah cara tercepat menguasai ilmu baru.','Setiap sesi belajar hari ini adalah fondasi keahlian masa depanmu.','Rasa ingin tahu ditambah guru yang baik adalah kombinasi tak terkalahkan.','Ilmu yang dipelajari dengan benar akan bertahan seumur hidup.'];
-const STYLES={
-  socratic:{name:'Socratic',desc:'Memantik pikiran lewat pertanyaan'},
-  direct:{name:'Langsung',desc:'Penjelasan ringkas & to the point'},
-  storytelling:{name:'Storytelling',desc:'Belajar lewat cerita & analogi'},
-  drill:{name:'Latihan Soal',desc:'Fokus praktik & kuis interaktif'}
-};
+const MOTIVS=['Guru terbaik tidak hanya memberi jawaban, tapi membentuk cara berpikirmu.','Belajar dari guru yang tepat adalah cara tercepat menguasai ilmu baru.','Setiap sesi belajar hari ini adalah fondasi keahlian masa depanmu.','Rasa ingin tahu ditambah guru yang baik adalah kombinasi tak terkalahkan.'];
+const STYLES={socratic:{name:'Socratic',desc:'Memantik pikiran lewat pertanyaan'},direct:{name:'Langsung',desc:'Penjelasan ringkas & to the point'},storytelling:{name:'Storytelling',desc:'Belajar lewat cerita & analogi'},drill:{name:'Latihan Soal',desc:'Fokus praktik & kuis interaktif'}};
 const MODEL='llama-3.3-70b-versatile';
 
-// ⚡ KUNCI: panggil backend kita, bukan Groq langsung!
-const API_ENDPOINT='/api/chat';
+let token=null,userId=null,agents=[],convs={},mems={},sel=null,newIcon='📚',newStyle='socratic';
 
-let D={agents:[],convs:{},mems:{},sel:null,icon:'📚',style:'socratic'};
+// ─── AUTH ───
+let authMode='login';
+function switchAuth(mode,el){
+  authMode=mode;
+  document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('auth-btn').textContent=mode==='login'?'Masuk':'Daftar';
+  hideAuthMsg();
+}
 
-function load(){
-  try{const s=localStorage.getItem('la_vercel');if(s)Object.assign(D,JSON.parse(s));}catch(e){}
+function showAuthError(msg){const e=document.getElementById('auth-error');e.textContent=msg;e.classList.add('show');document.getElementById('auth-success').classList.remove('show');}
+function showAuthSuccess(msg){const e=document.getElementById('auth-success');e.textContent=msg;e.classList.add('show');document.getElementById('auth-error').classList.remove('show');}
+function hideAuthMsg(){document.getElementById('auth-error').classList.remove('show');document.getElementById('auth-success').classList.remove('show');}
+
+async function doAuth(){
+  const email=document.getElementById('auth-email').value.trim();
+  const pass=document.getElementById('auth-pass').value;
+  if(!email||!pass){showAuthError('Email dan password harus diisi!');return;}
+  const btn=document.getElementById('auth-btn');
+  btn.disabled=true;btn.textContent='Memproses...';
+  try{
+    const res=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:authMode,email,password:pass})});
+    const data=await res.json();
+    if(data.error){showAuthError(data.error);return;}
+    if(authMode==='signup'){
+      showAuthSuccess('Pendaftaran berhasil! Silakan cek email untuk verifikasi, lalu login.');
+      return;
+    }
+    // Login berhasil
+    token=data.access_token;
+    userId=data.user.id;
+    localStorage.setItem('la_token',token);
+    localStorage.setItem('la_user_id',userId);
+    localStorage.setItem('la_email',email);
+    document.getElementById('user-email').textContent=email;
+    await loadData();
+    showApp();
+  }catch(err){
+    showAuthError('Terjadi kesalahan: '+err.message);
+  }finally{
+    btn.disabled=false;btn.textContent=authMode==='login'?'Masuk':'Daftar';
+  }
+}
+
+async function doLogout(){
+  token=null;userId=null;agents=[];convs={};mems={};sel=null;
+  localStorage.removeItem('la_token');localStorage.removeItem('la_user_id');localStorage.removeItem('la_email');
+  showAuth();
+}
+
+function showApp(){
+  document.getElementById('auth-page').style.display='none';
+  document.getElementById('main-app').classList.add('show');
   document.getElementById('motiv-tx').textContent=MOTIVS[Math.floor(Math.random()*MOTIVS.length)];
   renderAgents();renderPills();updStats();
 }
 
-function save(){localStorage.setItem('la_vercel',JSON.stringify(D));}
+function showAuth(){
+  document.getElementById('main-app').classList.remove('show');
+  document.getElementById('auth-page').style.display='flex';
+}
+
+// ─── DATA ───
+async function api(method,path,body){
+  const opts={method,headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}};
+  if(body)opts.body=JSON.stringify(body);
+  const res=await fetch(path,opts);
+  const data=await res.json();
+  if(!res.ok)throw new Error(data.error||'API error');
+  return data;
+}
+
+async function loadData(){
+  try{
+    // Load agents
+    const agRes=await fetch(`/api/data?table=agents`,{headers:{'Authorization':`Bearer ${token}`}});
+    const agData=await agRes.json();
+    agents=agData||[];
+
+    // Load conversations dan memories per agent
+    for(const ag of agents){
+      const convRes=await fetch(`/api/data?table=conversations&filter=agent_id=eq.${ag.id}`,{headers:{'Authorization':`Bearer ${token}`}});
+      convs[ag.id]=await convRes.json()||[];
+
+      const memRes=await fetch(`/api/data?table=memories&filter=agent_id=eq.${ag.id}`,{headers:{'Authorization':`Bearer ${token}`}});
+      const memData=await memRes.json()||[];
+      mems[ag.id]={};
+      memData.forEach(m=>mems[ag.id][m.key]=m.value);
+    }
+  }catch(e){console.error('Load data error:',e);}
+}
+
+// ─── INIT ───
+async function init(){
+  const savedToken=localStorage.getItem('la_token');
+  const savedEmail=localStorage.getItem('la_email');
+  if(savedToken){
+    token=savedToken;
+    userId=localStorage.getItem('la_user_id');
+    document.getElementById('user-email').textContent=savedEmail||'user';
+    try{
+      await loadData();
+      showApp();
+    }catch(e){
+      // Token expired
+      localStorage.removeItem('la_token');
+      showAuth();
+    }
+  }else{
+    showAuth();
+  }
+  document.getElementById('loading').style.display='none';
+}
+
+// ─── HELPERS ───
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2300);}
 
 function updStats(){
-  document.getElementById('s-ag').textContent=D.agents.length;
-  const tot=Object.values(D.convs).reduce((s,c)=>s+(c||[]).filter(m=>m.role==='user').length,0);
+  document.getElementById('s-ag').textContent=agents.length;
+  const tot=Object.values(convs).reduce((s,c)=>s+(c||[]).filter(m=>m.role==='user').length,0);
   document.getElementById('s-ms').textContent=tot;
-  const totMem=Object.values(D.mems).reduce((s,m)=>s+Object.keys(m||{}).length,0);
+  const totMem=Object.values(mems).reduce((s,m)=>s+Object.keys(m||{}).length,0);
   document.getElementById('s-mem').textContent=totMem;
 }
 
@@ -277,59 +417,40 @@ function goTab(name,el){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
   el.classList.add('on');document.getElementById('view-'+name).classList.add('on');
   if(name==='mem')renderMem();
-  if(name==='chat'){renderPills();if(D.sel)renderMsgs();}
+  if(name==='chat'){renderPills();if(sel)renderMsgs();}
 }
 
 function getRole(name,style){
   const n=name.toLowerCase();
   let r='Expert & Pengajar Profesional';
-  if(n.includes('python')||n.includes('javascript')||n.includes('coding')||n.includes('langgraph')||n.includes('langchain')||n.includes('data'))r='Software Engineer & AI Expert';
-  else if(n.includes('matematika')||n.includes('kalkulus')||n.includes('statistik'))r='Profesor Matematika';
+  if(n.includes('python')||n.includes('javascript')||n.includes('coding')||n.includes('langgraph')||n.includes('data'))r='Software Engineer & AI Expert';
+  else if(n.includes('matematika')||n.includes('kalkulus'))r='Profesor Matematika';
   else if(n.includes('fisika'))r='Profesor Fisika';
   else if(n.includes('inggris')||n.includes('english'))r='Tutor Bahasa Inggris';
-  else if(n.includes('jepang'))r='Tutor Bahasa Jepang';
   else if(n.includes('ekonomi')||n.includes('bisnis'))r='Ekonom & Konsultan';
   return r+' • '+STYLES[style||'socratic'].name;
 }
 
 function buildSystem(ag){
-  const mem=D.mems[ag.id]||{};
+  const mem=mems[ag.id]||{};
   const memStr=Object.keys(mem).length?'\n\nCatatan tentang murid:\n'+Object.entries(mem).map(([k,v])=>`- ${k.replace(/_/g,' ')}: ${v}`).join('\n'):'';
-  const styleMap={
-    socratic:'menggunakan metode Socratic — ajukan pertanyaan pemantik untuk memancing pemikiran kritis',
-    direct:'menjelaskan secara langsung dan terstruktur — definisi, konsep inti, contoh konkret, rangkuman',
-    storytelling:'mengajar lewat analogi, cerita, dan metafora yang relevan',
-    drill:'fokus pada latihan dan praktik — berikan soal, tunggu jawaban, koreksi, tingkatkan kesulitan'
-  };
-  const customDesc=ag.desc?`\nLatar belakangmu: ${ag.desc}`:'';
+  const styleMap={socratic:'menggunakan metode Socratic — ajukan pertanyaan pemantik',direct:'menjelaskan langsung dan terstruktur',storytelling:'mengajar lewat analogi dan cerita',drill:'fokus pada latihan dan praktik'};
+  const customDesc=ag.description?`\nLatar belakangmu: ${ag.description}`:'';
   return `Kamu adalah guru dan pakar kelas dunia dalam bidang: ${ag.name}.${customDesc}
-
-IDENTITAS:
-- Pengalaman mengajar 15+ tahun, gelar tertinggi di bidang ${ag.name}
-- Telah membantu ribuan murid dari pemula hingga mahir
-- Memahami kesalahan umum pemula dan cara mengatasinya
-
-GAYA MENGAJAR: Kamu ${styleMap[ag.style||'socratic']}.
-
-PRINSIP:
-1. Identifikasi level murid jika belum diketahui
-2. Gunakan bahasa sesuai level murid
-3. Berikan contoh konkret dan relevan
-4. Koreksi kesalahan dengan cara membangun
-5. Semangati murid saat ada kemajuan${memStr}
-
-Jawab dalam bahasa Indonesia yang hangat dan profesional.
-Di AKHIR setiap jawaban, tambahkan (jangan dilewat):
-MEMORY_UPDATE:{"key":"value singkat"}
-Key berguna: level_murid, topik_terakhir, kesulitan, progress, kekuatan`;
+IDENTITAS: Pengalaman 15+ tahun, gelar tertinggi di bidang ${ag.name}.
+GAYA: Kamu ${styleMap[ag.style||'socratic']}.
+PRINSIP: Identifikasi level murid, berikan contoh konkret, semangati murid.${memStr}
+Jawab dalam bahasa Indonesia yang hangat.
+Di AKHIR jawaban tambahkan: MEMORY_UPDATE:{"key":"value"}`;
 }
 
+// ─── AGENTS ───
 function renderAgents(){
   const g=document.getElementById('ag-grid');g.innerHTML='';
-  D.agents.forEach(ag=>{
-    const msgs=(D.convs[ag.id]||[]).filter(m=>m.role==='user').length;
+  agents.forEach(ag=>{
+    const msgs=(convs[ag.id]||[]).filter(m=>m.role==='user').length;
     const role=getRole(ag.name,ag.style);
-    const card=document.createElement('div');card.className='ag-card'+(D.sel===ag.id?' sel':'');
+    const card=document.createElement('div');card.className='ag-card'+(sel===ag.id?' sel':'');
     const dots=Array.from({length:5},(_,i)=>`<div class="ag-dot${i<Math.min(msgs,5)?' f':''}"></div>`).join('');
     card.innerHTML=`<button class="ag-del" onclick="delAgent('${ag.id}',event)">✕</button>
       <div class="ag-card-top"><span class="ag-icon">${ag.icon}</span><span class="ag-expert">Expert</span></div>
@@ -337,37 +458,42 @@ function renderAgents(){
       <div class="ag-role">${role.split('•')[0].trim()}</div>
       <div class="ag-dots">${dots}</div>
       <div class="ag-meta">${msgs} sesi belajar</div>`;
-    card.onclick=e=>{if(e.target.classList.contains('ag-del'))return;D.sel=ag.id;renderAgents();renderPills();goTab('chat',document.querySelectorAll('.tab')[1]);renderMsgs();};
+    card.onclick=e=>{if(e.target.classList.contains('ag-del'))return;sel=ag.id;renderAgents();renderPills();goTab('chat',document.querySelectorAll('.tab')[1]);renderMsgs();};
     g.appendChild(card);
   });
   const add=document.createElement('div');add.className='ag-add';
-  add.innerHTML='<div class="ag-add-icon">+</div><div class="ag-add-label">Tambah guru</div>';
+  add.innerHTML='<div style="font-size:24px">+</div><div style="font-size:12px;font-weight:500">Tambah guru</div>';
   add.onclick=openModal;g.appendChild(add);updStats();
 }
 
-function delAgent(id,e){
+async function delAgent(id,e){
   e.stopPropagation();
-  if(!confirm('Hapus guru ini beserta semua percakapan dan progress-nya?'))return;
-  D.agents=D.agents.filter(a=>a.id!==id);delete D.convs[id];delete D.mems[id];
-  if(D.sel===id)D.sel=null;save();renderAgents();renderPills();toast('Guru dihapus');
+  if(!confirm('Hapus guru ini?'))return;
+  try{
+    await api('DELETE','/api/data',{table:'agents',filter:`id=eq.${id}`});
+    agents=agents.filter(a=>a.id!==id);
+    delete convs[id];delete mems[id];
+    if(sel===id)sel=null;
+    renderAgents();renderPills();toast('Guru dihapus');
+  }catch(e){toast('Gagal hapus: '+e.message);}
 }
 
 function renderPills(){
   const bar=document.getElementById('ch-pills');const btn=document.getElementById('ch-send');
   bar.innerHTML='';
-  if(!D.agents.length){bar.innerHTML='<span style="font-size:12px;color:var(--text3)">Tambah guru dulu di tab "Guru Saya"</span>';btn.disabled=true;return;}
-  D.agents.forEach(ag=>{
-    const p=document.createElement('button');p.className='ch-pill'+(D.sel===ag.id?' on':'');
+  if(!agents.length){bar.innerHTML='<span style="font-size:12px;color:var(--text3)">Tambah guru dulu di tab "Guru Saya"</span>';btn.disabled=true;return;}
+  agents.forEach(ag=>{
+    const p=document.createElement('button');p.className='ch-pill'+(sel===ag.id?' on':'');
     p.innerHTML=`${ag.icon} ${ag.name}`;
-    p.onclick=()=>{D.sel=ag.id;renderPills();renderMsgs();updBar();};
+    p.onclick=()=>{sel=ag.id;renderPills();renderMsgs();updBar();};
     bar.appendChild(p);
   });
-  btn.disabled=!D.sel;
-  if(D.sel)updBar();
+  btn.disabled=!sel;
+  if(sel)updBar();
 }
 
 function updBar(){
-  const ag=D.agents.find(a=>a.id===D.sel);
+  const ag=agents.find(a=>a.id===sel);
   const bar=document.getElementById('ch-bar');
   if(!ag){bar.classList.remove('show');return;}
   document.getElementById('cb-icon').textContent=ag.icon;
@@ -379,11 +505,11 @@ function updBar(){
 
 function renderMsgs(){
   const w=document.getElementById('ch-msgs');w.innerHTML='';
-  if(!D.sel){w.innerHTML='<div class="ch-empty"><div class="ch-empty-icon">📖</div><p>Pilih guru di atas untuk mulai belajar</p></div>';return;}
-  const ag=D.agents.find(a=>a.id===D.sel);
-  const conv=D.convs[D.sel]||[];
+  if(!sel){w.innerHTML='<div class="ch-empty"><div class="ch-empty-icon">📖</div><p>Pilih guru di atas untuk mulai belajar</p></div>';return;}
+  const ag=agents.find(a=>a.id===sel);
+  const conv=convs[sel]||[];
   if(!conv.length){
-    w.innerHTML=`<div class="ch-empty"><span style="font-size:2.5rem">${ag?.icon}</span><p style="margin-top:8px">Halo! Saya guru <strong>${ag?.name}</strong> kamu.<br><br>Gaya mengajar: <strong>${STYLES[ag?.style||'socratic'].name}</strong><br><br>Apa yang ingin kamu pelajari?</p></div>`;
+    w.innerHTML=`<div class="ch-empty"><span style="font-size:2.5rem">${ag?.icon}</span><p style="margin-top:8px">Halo! Saya guru <strong>${ag?.name}</strong> kamu.<br><br>Gaya: <strong>${STYLES[ag?.style||'socratic'].name}</strong><br><br>Apa yang ingin kamu pelajari?</p></div>`;
     renderQuick(ag);return;
   }
   conv.forEach(m=>{
@@ -409,32 +535,32 @@ function renderQuick(ag){
 
 function renderMem(){
   const c=document.getElementById('mem-ct');c.innerHTML='';
-  if(!D.agents.length){c.innerHTML='<div style="text-align:center;color:var(--text3);padding:3rem;font-size:13px;">Belum ada guru. Tambah dulu!</div>';return;}
-  D.agents.forEach(ag=>{
-    const mem=D.mems[ag.id]||{};const keys=Object.keys(mem);
-    const role=getRole(ag.name,ag.style).split('•')[0].trim();
+  if(!agents.length){c.innerHTML='<div style="text-align:center;color:var(--text3);padding:3rem;font-size:13px;">Belum ada guru!</div>';return;}
+  agents.forEach(ag=>{
+    const mem=mems[ag.id]||{};const keys=Object.keys(mem);
     const sec=document.createElement('div');sec.className='mem-sec';
-    sec.innerHTML=`<div class="mem-hd"><span class="mem-hd-ic">${ag.icon}</span><span class="mem-hd-name">${ag.name}</span><span class="mem-hd-role">— ${role}</span><span class="mem-badge">${keys.length} catatan</span></div>`;
-    if(!keys.length){sec.innerHTML+='<div class="mem-empty">Belum ada progress — mulai belajar dulu!</div>';}
+    sec.innerHTML=`<div class="mem-hd"><span class="mem-hd-ic">${ag.icon}</span><span class="mem-hd-name">${ag.name}</span><span class="mem-hd-role">— ${getRole(ag.name,ag.style).split('•')[0].trim()}</span><span class="mem-badge">${keys.length} catatan</span></div>`;
+    if(!keys.length){sec.innerHTML+='<div class="mem-empty">Belum ada progress!</div>';}
     else{const mg=document.createElement('div');mg.className='mem-grid';keys.forEach(k=>{mg.innerHTML+=`<div class="mem-card"><div class="mem-key">${k.replace(/_/g,' ')}</div><div class="mem-val">${mem[k]}</div></div>`;});sec.appendChild(mg);}
     c.appendChild(sec);
   });
 }
 
+// ─── MODAL ───
 function openModal(){
-  D.icon='📚';D.style='socratic';
+  newIcon='📚';newStyle='socratic';
   document.getElementById('f-name').value='';document.getElementById('f-desc').value='';
   const sg=document.getElementById('style-grid');sg.innerHTML='';
   Object.entries(STYLES).forEach(([key,val],i)=>{
-    const d=document.createElement('div');d.className='sopt'+(i===0?' on':'');d.dataset.style=key;
+    const d=document.createElement('div');d.className='sopt'+(i===0?' on':'');
     d.innerHTML=`<div class="sopt-name">${val.name}</div><div class="sopt-desc">${val.desc}</div>`;
-    d.onclick=()=>{D.style=key;sg.querySelectorAll('.sopt').forEach(o=>o.classList.remove('on'));d.classList.add('on');};
+    d.onclick=()=>{newStyle=key;sg.querySelectorAll('.sopt').forEach(o=>o.classList.remove('on'));d.classList.add('on');};
     sg.appendChild(d);
   });
   const eg=document.getElementById('emoji-grid');eg.innerHTML='';
   EMOJIS.forEach(e=>{
-    const o=document.createElement('div');o.className='em-opt'+(e===D.icon?' on':'');o.textContent=e;
-    o.onclick=()=>{D.icon=e;eg.querySelectorAll('.em-opt').forEach(x=>x.classList.remove('on'));o.classList.add('on');};
+    const o=document.createElement('div');o.className='em-opt'+(e===newIcon?' on':'');o.textContent=e;
+    o.onclick=()=>{newIcon=e;eg.querySelectorAll('.em-opt').forEach(x=>x.classList.remove('on'));o.classList.add('on');};
     eg.appendChild(o);
   });
   document.getElementById('modal-bg').classList.add('open');
@@ -443,28 +569,40 @@ function openModal(){
 function closeModal(){document.getElementById('modal-bg').classList.remove('open');}
 document.getElementById('modal-bg').onclick=e=>{if(e.target===document.getElementById('modal-bg'))closeModal();};
 
-function createAgent(){
+async function createAgent(){
   const name=document.getElementById('f-name').value.trim();
   if(!name){document.getElementById('f-name').focus();return;}
   const desc=document.getElementById('f-desc').value.trim();
-  const id='ag'+Date.now();
-  D.agents.push({id,name,icon:D.icon,style:D.style,desc});
-  D.convs[id]=[];D.mems[id]={};D.sel=id;
-  save();closeModal();renderAgents();renderPills();
-  toast(`Guru "${name}" siap mengajar!`);
-  setTimeout(()=>{goTab('chat',document.querySelectorAll('.tab')[1]);renderMsgs();},250);
+  try{
+    const result=await api('POST','/api/data',{
+      table:'agents',
+      data:{name,icon:newIcon,style:newStyle,description:desc,user_id:userId}
+    });
+    const newAg=Array.isArray(result)?result[0]:result;
+    agents.push(newAg);
+    convs[newAg.id]=[];mems[newAg.id]={};sel=newAg.id;
+    closeModal();renderAgents();renderPills();
+    toast(`Guru "${name}" siap mengajar!`);
+    setTimeout(()=>{goTab('chat',document.querySelectorAll('.tab')[1]);renderMsgs();},250);
+  }catch(e){toast('Gagal buat guru: '+e.message);}
 }
 
+// ─── CHAT ───
 function autoH(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
 function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend();}}
 
 async function doSend(){
   const inp=document.getElementById('ch-inp');
-  const txt=inp.value.trim();if(!txt||!D.sel)return;
+  const txt=inp.value.trim();if(!txt||!sel)return;
   inp.value='';autoH(inp);
-  const ag=D.agents.find(a=>a.id===D.sel);
-  if(!D.convs[D.sel])D.convs[D.sel]=[];
-  D.convs[D.sel].push({role:'user',content:txt});
+  const ag=agents.find(a=>a.id===sel);
+  if(!convs[sel])convs[sel]=[];
+
+  // Simpan pesan user ke Supabase
+  try{
+    await api('POST','/api/data',{table:'conversations',data:{agent_id:sel,user_id:userId,role:'user',content:txt}});
+  }catch(e){}
+  convs[sel].push({role:'user',content:txt});
   renderMsgs();
 
   const w=document.getElementById('ch-msgs');
@@ -473,35 +611,64 @@ async function doSend(){
   w.appendChild(loading);w.scrollTop=99999;
   document.getElementById('ch-send').disabled=true;
 
-  const history=(D.convs[D.sel]||[]).slice(-14).map(m=>({role:m.role,content:m.content}));
+  const history=convs[sel].slice(-14).map(m=>({role:m.role,content:m.content}));
   const messages=[{role:'system',content:buildSystem(ag)},...history];
 
   try{
-    // ⚡ Panggil backend kita — API Key aman di server!
-    const res=await fetch(API_ENDPOINT,{
+    const res=await fetch('/api/chat',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
       body:JSON.stringify({messages,model:MODEL})
     });
     const data=await res.json();
     if(data.error)throw new Error(data.error);
     let reply=data.choices?.[0]?.message?.content||'Maaf, terjadi kesalahan.';
+
+    // Extract memory update
     const mm=reply.match(/MEMORY_UPDATE:(\{[\s\S]*?\})/);
     if(mm){
-      try{Object.assign(D.mems[D.sel],JSON.parse(mm[1]));}catch(e){}
+      try{
+        const memUpdate=JSON.parse(mm[1]);
+        if(!mems[sel])mems[sel]={};
+        for(const [key,value] of Object.entries(memUpdate)){
+          mems[sel][key]=value;
+          // Simpan/update memori ke Supabase
+          try{
+            await api('POST','/api/data',{
+              table:'memories',
+              data:{agent_id:sel,user_id:userId,key,value:String(value)}
+            });
+          }catch(e){
+            // Kalau sudah ada, update
+            try{
+              await api('PUT','/api/data',{
+                table:'memories',
+                data:{value:String(value),updated_at:new Date().toISOString()},
+                filter:`agent_id=eq.${sel}&key=eq.${key}`
+              });
+            }catch(e2){}
+          }
+        }
+      }catch(e){}
       reply=reply.replace(/MEMORY_UPDATE:[\s\S]*$/,'').trim();
     }
-    D.convs[D.sel].push({role:'assistant',content:reply});
-    save();renderMsgs();updStats();
+
+    // Simpan jawaban guru ke Supabase
+    try{
+      await api('POST','/api/data',{table:'conversations',data:{agent_id:sel,user_id:userId,role:'assistant',content:reply}});
+    }catch(e){}
+    convs[sel].push({role:'assistant',content:reply});
+    renderMsgs();updStats();
+
   }catch(err){
-    D.convs[D.sel].push({role:'assistant',content:'Maaf, terjadi kesalahan: '+err.message});
+    convs[sel].push({role:'assistant',content:'Maaf, terjadi kesalahan: '+err.message});
     renderMsgs();
   }
   document.getElementById('ch-send').disabled=false;
   inp.focus();
 }
 
-load();
+init();
 </script>
 </body>
 </html>
